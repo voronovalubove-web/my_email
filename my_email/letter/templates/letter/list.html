@@ -1,0 +1,31 @@
+{% extends 'letter/base.html' %}
+
+{% block content %}
+<h2>{{ current_folder }}</h2>
+{% if messages %}
+<table>
+    <tr>
+        <th>Статус</th>
+        <th>Тема</th>
+        <th>Отправитель / Получатель</th>
+        <th>Дата</th>
+        <th>Действия</th>
+    </tr>
+    {% for msg in messages %}
+    <tr>
+        <td>{% if msg.is_read %}✅ Прочитано{% else %}🔴 Не прочитано{% endif %}</td>
+        <td><a href="{% url 'detail' msg.id %}">{{ msg.subject }}</a></td>
+        <td>{{ msg.sender }} / {{ msg.recipient }}</td>
+        <td>{{ msg.created_at|date:"d.m.Y H:i" }}</td>
+        <td class="actions">
+            <a href="{% url 'move' msg.id 'archive' %}" class="move">В архив</a>
+            <a href="{% url 'move' msg.id 'trash' %}" class="move">В корзину</a>
+            <a href="{% url 'delete' msg.id %}">Удалить</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>В этой папке пока пусто.</p>
+{% endif %}
+{% endblock %}

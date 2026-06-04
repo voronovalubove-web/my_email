@@ -1,0 +1,20 @@
+{% extends 'letter/base.html' %}
+
+{% block content %}
+<h2>{{ message.subject }}</h2>
+<p><strong>От:</strong> {{ message.sender }}</p>
+<p><strong>Кому:</strong> {{ message.recipient }}</p>
+<p><strong>Дата:</strong> {{ message.created_at|date:"d.m.Y H:i" }}</p>
+<hr>
+<div style="white-space: pre-wrap; background: #f9f9f9; padding: 10px; border-radius: 4px;">
+    {{ message.body }}
+</div>
+<hr>
+<p>
+    <a href="{% url 'move' message.id 'inbox' %}">⬅️ Во входящие</a> |
+    <a href="{% url 'move' message.id 'outbox' %}">➡️ В исходящие</a> |
+    <a href="{% url 'move' message.id 'archive' %}">📦 В архив</a> |
+    <a href="{% url 'move' message.id 'trash' %}">🗑️ В корзину</a>
+</p>
+<a href="javascript:history.back()">← Назад</a>
+{% endblock %}
